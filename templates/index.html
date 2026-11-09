@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Engineering Unit Converter | Hafsat</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header class="header"><div class="mark">EUC</div><div><p class="eyebrow">PYTHON & ENGINEERING LOGIC • CAPSTONE</p><h1>Engineering Unit Converter</h1><p class="subtitle">Convert measurements, save calculations and explore your results.</p></div></header>
+    <section class="layout">
+      <div class="panel converter"><h2>New conversion</h2><p class="muted">Choose a measurement type and enter a value.</p>
+        <form method="post" action="/">
+          <label for="conversion">Conversion type</label>
+          <select id="conversion" name="conversion">
+            {% for key, item in conversions.items() %}<option value="{{ key }}" {% if key == selected %}selected{% endif %}>{{ item[0] }}</option>{% endfor %}
+          </select>
+          <label for="value">Value to convert</label>
+          <input id="value" name="value" type="number" step="any" required placeholder="e.g. 25" value="{{ entered }}">
+          <button type="submit">Convert & save result →</button>
+        </form>
+        {% if error %}<div class="notice error" role="alert">{{ error }}</div>{% endif %}
+        {% if result %}<div class="result"><span class="eyebrow">YOUR RESULT</span><div class="result-number">{{ result.value }} <small>{{ result.unit }}</small></div><p>{{ result.expression }}</p><span class="saved">Conversion completed</span></div>{% else %}<div class="placeholder">Your conversion result will appear here.</div>{% endif %}
+      </div>
+      <div class="panel statistics"><h2>Saved statistics</h2><p class="muted">Results for the selected conversion type, across saved records.</p>
+        {% if stats %}<div class="stats-grid"><div><span>Conversions</span><strong>{{ stats.count }}</strong></div><div><span>Average</span><strong>{{ stats.average }}</strong></div><div><span>Minimum</span><strong>{{ stats.minimum }}</strong></div><div><span>Maximum</span><strong>{{ stats.maximum }}</strong></div><div class="wide"><span>Sum of results</span><strong>{{ stats.total }}</strong></div></div>{% else %}<div class="placeholder">No saved results for this conversion yet.</div>{% endif %}
+        <p class="footnote">Statistics are grouped by conversion type to avoid mixing different measurement units.</p>
+      </div>
+    </section>
+    <section class="panel history"><div class="section-head"><div><h2>Conversion history</h2><p class="muted">Your 30 most recent saved conversions</p></div><span class="pill">Saved locally</span></div>
+      {% if history %}<div class="table-wrap"><table><thead><tr><th>Date & time</th><th>Conversion</th><th>Input</th><th>Result</th></tr></thead><tbody>{% for item in history %}<tr><td>{{ item.date }}</td><td>{{ item.conversion }}</td><td>{{ item.input }} {{ item.from_unit }}</td><td><strong>{{ '%.4f'|format(item.result|float) }} {{ item.to_unit }}</strong></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="placeholder">No saved conversions yet. Try your first one above.</div>{% endif %}
+    </section>
+    <footer>Built by Hafsat · Python, Flask, HTML & CSS</footer>
+  </main>
+</body>
+</html>
