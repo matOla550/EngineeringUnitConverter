@@ -31,7 +31,7 @@
     <section class="panel history"><div class="section-head"><div><h2>Conversion history</h2><p class="muted">Your 30 most recent saved conversions</p></div><span class="pill">Saved locally</span></div>
       {% if history %}<div class="table-wrap"><table><thead><tr><th>Date & time</th><th>Conversion</th><th>Input</th><th>Result</th></tr></thead><tbody>{% for item in history %}<tr><td>{{ item.date }}</td><td>{{ item.conversion }}</td><td>{{ item.input }} {{ item.from_unit }}</td><td><strong>{{ '%.4f'|format(item.result|float) }} {{ item.to_unit }}</strong></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="placeholder">No saved conversions yet. Try your first one above.</div>{% endif %}
     </section>
-    <footer>Built by Hafsat · Python, Flask, HTML & CSS</footer>
+    <footer>Python, Flask, HTML & CSS</footer>
   </main>
 </body>
 </html>
